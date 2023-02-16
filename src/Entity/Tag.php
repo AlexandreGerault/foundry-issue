@@ -24,7 +24,7 @@ class Tag
     public int $id;
 
     #[ManyToMany(targetEntity: Post::class, mappedBy: 'tags')]
-    public Collection $posts;
+    private Collection $posts;
 
     #[Column(type: Types::STRING)]
     public string $name;
@@ -32,5 +32,35 @@ class Tag
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+    }
+
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function setPosts(Collection $posts): self
+    {
+        $this->posts = $posts;
+
+        return $this;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->contains($post)) {
+            $this->posts->removeElement($post);
+        }
+
+        return $this;
     }
 }

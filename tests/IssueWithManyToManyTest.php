@@ -20,5 +20,8 @@ class IssueWithManyToManyTest extends KernelTestCase
         $post = PostFactory::new()->create();
 
         $tag = TagFactory::new()->create(['posts' => [$post]]);
+
+        PostFactory::assert()->count(1);
+        TagFactory::assert()->count(1);
     }
 }
